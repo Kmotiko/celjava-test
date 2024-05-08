@@ -1,0 +1,27 @@
+load("@contrib_rules_jvm//java:defs.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "generatedmessage_test",
+    srcs = [
+      "CelForGeneratedMessageTest.java"
+    ],
+    runner = "junit5",
+    resources = [
+        "//src/main/resources",
+    ],
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
+    deps = [
+        "@maven//:dev_cel_cel",
+        "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:com_google_protobuf_protobuf_java_util",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "//src/main/java/org/example/cel",
+        "//src/main/java/org/example/utils",
+        "//src/main/java/org/example/proto",
+    ],
+)
