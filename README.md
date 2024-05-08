@@ -9,8 +9,8 @@ serialize proto to FileDescriptorSet format and generate java code from proto
 make all
 ```
 
-do test
+do test with following command.
 
 ```
-mvn test
+bazelisk run //src/test/java/org/example/cel/dynamicmessage:dynamicmessage_test
 ```

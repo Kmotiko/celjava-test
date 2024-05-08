@@ -1,0 +1,13 @@
+java_library(
+    name = "proto",
+    srcs = glob([
+      "*.java"
+    ]),
+    visibility = [
+      "//:__subpackages__"
+    ],
+    javacopts = [],
+    deps = [
+        "@maven//:com_google_protobuf_protobuf_java",
+    ],
+)

@@ -1,0 +1,14 @@
+java_library(
+    name = "cel",
+    srcs = glob([
+        "*.java",
+    ]),
+    visibility = [
+      "//:__subpackages__"
+    ],
+    javacopts = [],
+    deps = [
+        "@maven//:dev_cel_cel",
+        "@maven//:com_google_protobuf_protobuf_java",
+    ],
+)
