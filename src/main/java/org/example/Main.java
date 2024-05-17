@@ -28,7 +28,7 @@ public class Main {
                 Map.entry("contents", StructTypeReference.create("test.Test.Contents"))
         );
         String expr = "contents.map_field_b.size() > 0";
-        CelRuntime.Program program = CelUtils.buildProgram(vars, expr, testDescriptors);
+        CelRuntime.Program program = CelUtils.buildProgram(vars, expr, testDescriptors, true);
 
         String stringJson = """
                 {

@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class CelForDynamicMessageTest {
     @Test
-    public void testWithFileDescriptorSet() throws InvalidProtocolBufferException, CelValidationException, CelEvaluationException {
+    public void testWithFileDescriptorSet_EnableCelValue() throws CelValidationException, CelEvaluationException {
         // load FileDescriptors from DescriptorSet
         List<Descriptors.FileDescriptor> fileDescriptors = ProtoUtils.buildFileDescriptors("/test.pb");
         List<Descriptors.Descriptor> testDescriptors = fileDescriptors.getFirst().getMessageTypes();
@@ -29,8 +29,19 @@ public class CelForDynamicMessageTest {
                 Map.entry("map_field_a", MapType.create(SimpleType.STRING, SimpleType.STRING)),
                 Map.entry("contents", StructTypeReference.create("test.Test.Contents"))
         );
+        
+        // 
+        // test with enable CelValue 
+        // 
+        CelRuntime.Program programEnableCelValue = CelUtils.buildProgram(vars, query, testDescriptors, true);
+        // This will cause ClassCastException
+        Assertions.assertDoesNotThrow(() -> programEnableCelValue.eval(toMap(buildTestValue(testDescriptors.getFirst()))));
+    }
 
-        CelRuntime.Program program = CelUtils.buildProgram(vars, query, testDescriptors);
+    private DynamicMessage buildTestValue(Descriptors.Descriptor descriptor) throws InvalidProtocolBufferException {
+        // =========
+        // build DynamicMessage
+        // =========
         String stringJson = """
                 {
                     "contents" : {
@@ -40,14 +51,9 @@ public class CelForDynamicMessageTest {
                     }
                 }
                 """;
-        // =========
-        // build DynamicMessage
-        // =========
-        DynamicMessage.Builder messageBuilder = DynamicMessage.newBuilder(testDescriptors.getFirst());
+        DynamicMessage.Builder messageBuilder = DynamicMessage.newBuilder(descriptor);
         JsonFormat.parser().ignoringUnknownFields().merge(stringJson, messageBuilder);
-
-        // This will cause ClassCastException
-        Assertions.assertDoesNotThrow(() -> program.eval(toMap(messageBuilder.build())));
+        return messageBuilder.build();
     }
 
     private static Map<String, ?> toMap(Message message) {
