@@ -1,0 +1,18 @@
+java_library(
+    name = "example",
+    srcs = glob([
+      "Main.java"
+    ]),
+    visibility = [
+      "//:__subpackages__"
+    ],
+    javacopts = [],
+    deps = [
+        "@maven//:dev_cel_cel",
+        "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:com_google_protobuf_protobuf_java_util",
+        "//src/main/java/org/example/cel",
+        "//src/main/java/org/example/utils",
+    ],
+)
+

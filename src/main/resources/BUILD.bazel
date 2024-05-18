@@ -1,0 +1,7 @@
+filegroup(
+    name = "resources",
+    srcs = [
+      "test.pb"
+    ],
+    visibility = ["//visibility:public"]
+)

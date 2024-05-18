@@ -19,19 +19,21 @@ public class CelUtils {
     public static CelRuntime.Program buildProgram(
             Map<String, CelType> vars,
             String expr,
-            Descriptors.Descriptor descriptor
+            Descriptors.Descriptor descriptor,
+            boolean enableCelValue
     ) throws CelValidationException, CelEvaluationException {
-        return buildProgram(vars, expr, List.of(descriptor));
+        return buildProgram(vars, expr, List.of(descriptor), enableCelValue);
     }
 
     public static CelRuntime.Program buildProgram(
             Map<String, CelType> vars,
             String expr,
-            List<Descriptors.Descriptor> descriptors
+            List<Descriptors.Descriptor> descriptors,
+            boolean enableCelValue
     ) throws CelValidationException, CelEvaluationException {
         CelBuilder celBuilder = CelFactory.standardCelBuilder()
                 .addMessageTypes(descriptors)
-                .setOptions(celOption())
+                .setOptions(celOption(enableCelValue))
                 .setStandardMacros(CelStandardMacro.STANDARD_MACROS)
                 .setStandardEnvironmentEnabled(true);
         for (Map.Entry<String, CelType> type : vars.entrySet()) {
@@ -44,10 +46,9 @@ public class CelUtils {
         return program;
     }
 
-    private static CelOptions celOption() {
+    private static CelOptions celOption(boolean enableCelValue) {
         return CelOptions.newBuilder()
-                .enableCelValue(true)
-                .enableOptionalSyntax(true)
+                .enableCelValue(enableCelValue)
                 .build();
     }
 }

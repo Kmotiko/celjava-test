@@ -1,0 +1,18 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "celjavatest",
+    main_class = "org.example.Main",
+    resources = [
+      "//src/main/resources",
+    ],
+    visibility = [
+      "//:__pkg__"
+    ],
+    runtime_deps = [
+        "//src/main/java/org/example",
+    ],
+    deps = [
+    ],
+)
+
